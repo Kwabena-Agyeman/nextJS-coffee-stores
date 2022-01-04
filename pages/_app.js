@@ -6,9 +6,6 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Component {...pageProps} />
-      <footer>
-        <p>© 2022 Kwabena</p>
-      </footer>
     </>
   );
 }
