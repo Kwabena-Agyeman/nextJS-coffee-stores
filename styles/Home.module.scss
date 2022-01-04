@@ -3,6 +3,7 @@
 
 .container {
   margin-bottom: 14rem /* 224px */;
+  height: 100vh;
 }
 
 .main {
@@ -16,8 +17,8 @@
 
 .heroImage {
   position: absolute;
-  top: 0px;
-  z-index: 1;
+  top: 10px;
+  z-index: -1;
 }
 
 .cardLayout {
