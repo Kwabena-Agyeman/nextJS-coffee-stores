@@ -9,9 +9,9 @@ html {
   background: url("/static/mesh-gradient.png");
 
   background-position: 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
   color: #373b64;
+  /* background-repeat: repeat; */
+  /* background-size: cover; */
   /* height: ; */
   /* width: auto; */
 }
