@@ -5,7 +5,10 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
 
+import styles from "../../styles/coffee-store.module.scss";
+
 import coffeeStoreDate from "../../data/coffee-stores.json";
+import Image from "next/image";
 
 export function getStaticPaths() {
   const paths = coffeeStoreDate.map((CS) => {
@@ -22,7 +25,6 @@ export function getStaticPaths() {
 }
 
 export function getStaticProps(context) {
-  console.log("params", context.params);
   return {
     props: {
       coffeeStore: coffeeStoreDate.find((coffeeStore) => {
@@ -36,20 +38,27 @@ const CoffeStore = ({ coffeeStore }) => {
   const router = useRouter();
 
   return (
-    <div>
+    <div className={styles.layout}>
       <Head>
         <title>{coffeeStore.name}</title>
       </Head>
-      Coffee Store - {router.query.id}{" "}
-      <Link href={"/"}>
-        <a>BacK to home</a>
-      </Link>
-      <Link href={"/coffee-store/koby"}>
-        <a>Go to store</a>
-      </Link>
-      <p>{coffeeStore.address}</p>
-      <p>{coffeeStore.name}</p>
-      <p>{coffeeStore.neighbourhood}</p>
+      <div className={styles.container}>
+        <div className={styles.col1}>
+          <div className={styles.backToHomeLink}>
+            <Link href={"/"}>
+              <a>Back to home</a>
+            </Link>
+          </div>
+          <div className={styles.nameWrapper}>
+            <h1>{coffeeStore.name}</h1>
+          </div>
+          <Image src={coffeeStore.imgUrl} width={600} height={360} alt='' />
+        </div>
+        <div className={styles.col2}>
+          <p>{coffeeStore.address}</p>
+          <p>{coffeeStore.neighbourhood}</p>
+        </div>
+      </div>
     </div>
   );
 };
