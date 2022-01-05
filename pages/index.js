@@ -1,11 +1,12 @@
 /** @format */
 
 import Head from "next/head";
-import Banner from "../components/Banner";
+import Image from "next/image";
 import styles from "../styles/Home.module.scss";
 
-import Image from "next/image";
 import HeroImage from "../public/static/hero-image.png";
+import Banner from "../components/Banner";
+import Card from "../components/Card";
 
 const handleOnBannerButtonClick = () => console.log("Hi Banner button");
 
@@ -19,9 +20,20 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <Banner buttonText={"View stores nearby"} handleOnClick={handleOnBannerButtonClick} />
+        <Banner
+          buttonText={"View stores nearby"}
+          handleOnClick={handleOnBannerButtonClick}
+        />
         <div className={styles.heroImage}>
           <Image src={HeroImage} alt='' width={1200} height={500} />
+        </div>
+        <div className={styles.cardLayout}>
+          <Card
+            className={styles.card}
+            name={"Dark House Coffee"}
+            href={"/coffee-store/dark-house-coffee"}
+            imgUrl={"/static/hero-image.png"}
+          />
         </div>
       </main>
     </div>
