@@ -20,11 +20,6 @@ export const getStaticProps = async () => {
     };
   } catch (error) {
     console.log(error);
-    return {
-      props: {
-        coffeeStores: [],
-      },
-    };
   }
 };
 
@@ -54,10 +49,10 @@ export default function Home({ coffeeStores: cs }) {
           {cs.map((coffeeStore) => {
             return (
               <Card
-                key={coffeeStore.id}
+                key={coffeeStore.fsq_id}
                 className={styles.card}
                 name={coffeeStore.name}
-                href={`/coffee-store/${coffeeStore.id}`}
+                href={`/coffee-store/${coffeeStore.fsq_id}`}
                 imgUrl={
                   coffeeStore.imgUrl ||
                   "https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"

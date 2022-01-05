@@ -19,7 +19,7 @@ const Card = ({ name, imgUrl, href }) => {
             <Image
               className={styles.cardImage}
               src={imgUrl}
-              width={260}
+              width={360}
               height={260}
               alt=''
             />
