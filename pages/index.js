@@ -40,7 +40,7 @@ export default function Home({ coffeeStores: cs }) {
           handleOnClick={handleOnBannerButtonClick}
         />
         <div className={styles.heroImage}>
-          <Image src={HeroImage} alt='' width={1200} height={500} />
+          <Image src={HeroImage} alt='' width={1200} height={400} />
         </div>
 
         {cs.length > 0 && <h2 className={styles.heading2}>Toronto stores</h2>}

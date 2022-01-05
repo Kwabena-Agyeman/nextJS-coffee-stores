@@ -1,6 +1,6 @@
 /** @format */
 
-body {
+html {
   padding: 0;
   margin: 0;
   font-family: IBMPlexSans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
@@ -8,10 +8,12 @@ body {
 
   background: url("/static/mesh-gradient.png");
 
-  background-position: 50%;
+  background-position: 100%;
   background-repeat: no-repeat;
   background-size: cover;
   color: #373b64;
+  /* height: ; */
+  /* width: auto; */
 }
 
 @font-face {

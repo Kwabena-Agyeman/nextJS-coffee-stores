@@ -53,7 +53,7 @@ const CoffeStore = ({ coffeeStore }) => {
         <div className={styles.col1}>
           <div className={styles.backToHomeLink}>
             <Link href={"/"}>
-              <a>Back to home</a>
+              <a>← Back to home</a>
             </Link>
           </div>
           <div className={styles.nameWrapper}>
@@ -79,17 +79,19 @@ const CoffeStore = ({ coffeeStore }) => {
             />
             <p className={styles.text}>{coffeeStore.location.address}</p>
           </div>
-          <div className={styles.iconWrapper}>
-            <Image
-              src={"/static/icons/nearMe.svg"}
-              width={24}
-              height={24}
-              alt=''
-            />
-            <p className={styles.text}>
-              {coffeeStore.location.neighborhood[0]}
-            </p>
-          </div>
+          {coffeeStore.location.neighborhood && (
+            <div className={styles.iconWrapper}>
+              <Image
+                src={"/static/icons/nearMe.svg"}
+                width={24}
+                height={24}
+                alt=''
+              />
+              <p className={styles.text}>
+                {coffeeStore.location.neighborhood[0]}
+              </p>
+            </div>
+          )}
           <div className={styles.iconWrapper}>
             <Image
               src={"/static/icons/star.svg"}
