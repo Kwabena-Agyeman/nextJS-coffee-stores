@@ -8,9 +8,19 @@ import HeroImage from "../public/static/hero-image.png";
 import Banner from "../components/Banner";
 import Card from "../components/Card";
 
+import coffeeStoresData from "../data/coffee-stores.json";
+
+export async function getStaticProps(context) {
+  return {
+    props: {
+      coffeeStores: coffeeStoresData,
+    }, // will be passed to the page component as props
+  };
+}
+
 const handleOnBannerButtonClick = () => console.log("Hi Banner button");
 
-export default function Home() {
+export default function Home({ coffeeStores: cs }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -27,13 +37,21 @@ export default function Home() {
         <div className={styles.heroImage}>
           <Image src={HeroImage} alt='' width={1200} height={500} />
         </div>
+
+        {cs.length > 0 && <h2 className={styles.heading2}>Toronto stores</h2>}
+
         <div className={styles.cardLayout}>
-          <Card
-            className={styles.card}
-            name={"Dark House Coffee"}
-            href={"/coffee-store/dark-house-coffee"}
-            imgUrl={"/static/hero-image.png"}
-          />
+          {cs.map((coffeeStore) => {
+            return (
+              <Card
+                key={coffeeStore.id}
+                className={styles.card}
+                name={coffeeStore.name}
+                href={`/coffee-store/${coffeeStore.id}`}
+                imgUrl={coffeeStore.imgUrl}
+              />
+            );
+          })}
         </div>
       </main>
     </div>
