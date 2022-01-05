@@ -7,35 +7,24 @@ import styles from "../styles/Home.module.scss";
 import HeroImage from "../public/static/hero-image.png";
 import Banner from "../components/Banner";
 import Card from "../components/Card";
+import { fetchCoffeeStores } from "../lib/coffee-stores";
 
-import coffeeStoresData from "../data/coffee-stores.json";
-
-export const getStaticProps = async (context) => {
+export const getStaticProps = async () => {
   try {
-    const options = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: "fsq3AIa+1FwaSYh0Q7Ld7wCnxRXuEWMTgYbqsdi4CLYcJDY=",
-      },
-    };
-
-    const response = await fetch(
-      "https://api.foursquare.com/v3/places/search?query=coffee%20shop&ll=43.65267326999575%2C-79.29545615725015&limit=6",
-      options
-    );
-
-    const data = await response.json();
-
-    console.log(data.results);
+    const coffeeStores = await fetchCoffeeStores();
 
     return {
       props: {
-        coffeeStores: data.results,
+        coffeeStores,
       }, // will be passed to the page component as props
     };
   } catch (error) {
     console.log(error);
+    return {
+      props: {
+        coffeeStores: [],
+      },
+    };
   }
 };
 
