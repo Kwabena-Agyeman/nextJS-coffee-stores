@@ -7,7 +7,6 @@ import Head from "next/head";
 
 import styles from "../../styles/coffee-store.module.scss";
 import cls from "classnames";
-import coffeeStoreDate from "../../data/coffee-stores.json";
 import Image from "next/image";
 import { fetchCoffeeStores } from "../../lib/coffee-stores";
 
@@ -29,11 +28,13 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
   const coffeeStores = await fetchCoffeeStores();
 
+  const findCoffeeStoreById = coffeeStores.find((coffeeStore) => {
+    return coffeeStore.fsq_id.toString() === context.params.id; //dynamic id
+  });
+
   return {
     props: {
-      coffeeStore: coffeeStores.find((coffeeStore) => {
-        return coffeeStore.fsq_id.toString() === context.params.id;
-      }),
+      coffeeStore: findCoffeeStoreById ? findCoffeeStoreById : {},
     },
   };
 }
@@ -43,11 +44,14 @@ const handleUpVoteButton = () => {
 };
 const CoffeStore = ({ coffeeStore }) => {
   const router = useRouter();
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className={styles.layout}>
       <Head>
-        <title>{coffeeStore.name}</title>
+        <title>{coffeeStore?.name}</title>
       </Head>
       <div className={styles.container}>
         <div className={styles.col1}>
@@ -57,7 +61,7 @@ const CoffeStore = ({ coffeeStore }) => {
             </Link>
           </div>
           <div className={styles.nameWrapper}>
-            <h1>{coffeeStore.name}</h1>
+            <h1>{coffeeStore?.name}</h1>
           </div>
           <Image
             src={
@@ -77,7 +81,7 @@ const CoffeStore = ({ coffeeStore }) => {
               height={24}
               alt=''
             />
-            <p className={styles.text}>{coffeeStore.location.address}</p>
+            <p className={styles.text}>{coffeeStore?.location.address}</p>
           </div>
           {coffeeStore.location.neighborhood && (
             <div className={styles.iconWrapper}>

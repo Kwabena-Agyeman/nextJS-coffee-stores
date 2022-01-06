@@ -27,6 +27,8 @@ export const getStaticProps = async () => {
 
 export default function Home({ coffeeStores: cs }) {
   const [coffeeStoresNearBy, setCoffeeStoresNearBy] = useState([]);
+  const [coffeeStoresError, setCoffeeStoresError] = useState(null);
+
   const { handleTrackLocation, latLong, locationErrorMsg, isFindingLocation } =
     useTrackLocation();
   console.log({ latLong, locationErrorMsg });
@@ -47,7 +49,7 @@ export default function Home({ coffeeStores: cs }) {
         console.log({ fetchedCoffStores });
         setCoffeeStoresNearBy(fetchedCoffStores);
       } catch (error) {
-        // console.log(error);
+        setCoffeeStoresError(error.message);
       }
     }
   }, [latLong]);
@@ -69,6 +71,8 @@ export default function Home({ coffeeStores: cs }) {
           handleOnClick={handleOnBannerButtonClick}
         />
         {locationErrorMsg && <p>Something went wrong : {locationErrorMsg}</p>}
+        {coffeeStoresError && <p>Something went wrong: {coffeeStoresError}</p>}
+
         <div className={styles.heroImage}>
           <Image src={HeroImage} alt='' width={1200} height={450} />
         </div>
