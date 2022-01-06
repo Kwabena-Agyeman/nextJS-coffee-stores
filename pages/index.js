@@ -1,6 +1,6 @@
 /** @format */
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.scss";
@@ -26,6 +26,7 @@ export const getStaticProps = async () => {
 };
 
 export default function Home({ coffeeStores: cs }) {
+  const [coffeeStoresNearBy, setCoffeeStoresNearBy] = useState([]);
   const { handleTrackLocation, latLong, locationErrorMsg, isFindingLocation } =
     useTrackLocation();
   console.log({ latLong, locationErrorMsg });
@@ -41,8 +42,13 @@ export default function Home({ coffeeStores: cs }) {
   useEffect(async () => {
     if (latLong) {
       try {
-        const fetchedCoffStores = await fetchCoffeeStores(latLong);
-      } catch (error) {}
+        console.log("LATLONG CHANGED");
+        const fetchedCoffStores = await fetchCoffeeStores(latLong, 30);
+        console.log({ fetchedCoffStores });
+        setCoffeeStoresNearBy(fetchedCoffStores);
+      } catch (error) {
+        // console.log(error);
+      }
     }
   }, [latLong]);
 
@@ -66,6 +72,29 @@ export default function Home({ coffeeStores: cs }) {
         <div className={styles.heroImage}>
           <Image src={HeroImage} alt='' width={1200} height={450} />
         </div>
+
+        {coffeeStoresNearBy.length > 0 && (
+          <div className={styles.sectionWrapper}>
+            <h2 className={styles.heading2}>Store near me</h2>
+          </div>
+        )}
+        <div className={styles.cardLayout}>
+          {coffeeStoresNearBy.map((coffeeStore) => {
+            return (
+              <Card
+                key={coffeeStore.fsq_id}
+                className={styles.card}
+                name={coffeeStore.name}
+                href={`/coffee-store/${coffeeStore.fsq_id}`}
+                imgUrl={
+                  coffeeStore.imgUrl ||
+                  "https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
+                }
+              />
+            );
+          })}
+        </div>
+
         {cs.length > 0 && (
           <div className={styles.sectionWrapper}>
             <h2 className={styles.heading2}>Toronto stores</h2>
