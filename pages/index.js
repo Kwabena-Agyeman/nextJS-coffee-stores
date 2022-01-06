@@ -1,5 +1,6 @@
 /** @format */
 
+import { useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.scss";
@@ -8,6 +9,7 @@ import HeroImage from "../public/static/hero-image.png";
 import Banner from "../components/Banner";
 import Card from "../components/Card";
 import { fetchCoffeeStores } from "../lib/coffee-stores";
+import useTrackLocation from "../hooks/use-track-location";
 
 export const getStaticProps = async () => {
   try {
@@ -19,13 +21,34 @@ export const getStaticProps = async () => {
       }, // will be passed to the page component as props
     };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
-const handleOnBannerButtonClick = () => console.log("Hi Banner button");
-
 export default function Home({ coffeeStores: cs }) {
+  const { handleTrackLocation, latLong, locationErrorMsg, isFindingLocation } =
+    useTrackLocation();
+  console.log({ latLong, locationErrorMsg });
+
+  // const fetchNewCoffeeStoresOnLocation = async (location) => {
+  //   const response = await fetchCoffeeStores(location, 6, "coffee shop");
+
+  //   console.log({ response });
+
+  //   return response;
+  // };
+
+  useEffect(async () => {
+    if (latLong) {
+      try {
+        const fetchedCoffStores = await fetchCoffeeStores(latLong);
+      } catch (error) {}
+    }
+  }, [latLong]);
+
+  const handleOnBannerButtonClick = () => {
+    handleTrackLocation();
+  };
   return (
     <div className={styles.container}>
       <Head>
@@ -36,15 +59,18 @@ export default function Home({ coffeeStores: cs }) {
 
       <main className={styles.main}>
         <Banner
-          buttonText={"View stores nearby"}
+          buttonText={isFindingLocation ? "Locating..." : "View stores nearby"}
           handleOnClick={handleOnBannerButtonClick}
         />
+        {locationErrorMsg && <p>Something went wrong : {locationErrorMsg}</p>}
         <div className={styles.heroImage}>
           <Image src={HeroImage} alt='' width={1200} height={450} />
         </div>
-
-        {cs.length > 0 && <h2 className={styles.heading2}>Toronto stores</h2>}
-
+        {cs.length > 0 && (
+          <div className={styles.sectionWrapper}>
+            <h2 className={styles.heading2}>Toronto stores</h2>
+          </div>
+        )}
         <div className={styles.cardLayout}>
           {cs.map((coffeeStore) => {
             return (
