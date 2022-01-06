@@ -1,47 +1,13 @@
 /** @format */
 
-import { createContext, useReducer } from "react";
 import "../styles/globals.css";
-
-const StoreContext = createContext();
-
-const ACTION_TYPES = {
-  SET_LAT_LONG: "SET_LAT_LONG",
-  SET_COFFEE_STORES: "SET_COFFEE_STORES",
-};
-
-const StoreReducer = (state, action) => {
-  switch (action.type) {
-    case ACTION_TYPES.SET_LAT_LONG: {
-    }
-    case ACTION_TYPES.SET_COFFEE_STORES: {
-    }
-    default:
-      throw new Error(`Unhandled action type : ${action.type}`);
-  }
-};
-
-const StoreProvider = ({ children }) => {
-  const initialState = {
-    latLong: "",
-    coffeeStores: [],
-  };
-
-  const [state, dispatch] = useReducer(StoreReducer, initialState);
-  return (
-    <StoreContext.Provider value={{ state, dispatch }}>
-      {children}
-    </StoreContext.Provider>
-  );
-};
+import StoreProvider from "../store/store-context";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
-      <StoreProvider>
-        <Component {...pageProps} />
-      </StoreProvider>
-    </>
+    <StoreProvider>
+      <Component {...pageProps} />
+    </StoreProvider>
   );
 }
 
